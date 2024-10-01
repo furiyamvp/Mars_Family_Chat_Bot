@@ -1,0 +1,17 @@
+from aiogram import types
+from loader import dp
+
+
+@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+async def check_new_members(message: types.Message):
+    new_members = message.new_chat_members
+    for member in new_members:
+        if member.is_bot:
+            await message.answer(f"{message.from_user.full_name} - bot qo'shish mumkin emas !")
+            await message.chat.kick(member.id)
+    await message.delete()
+
+
+@dp.message_handler(content_types=types.ContentType.LEFT_CHAT_MEMBER)
+async def delete_left_message(message: types.Message):
+    await message.delete()
