@@ -1,2 +1,2 @@
 from . import access_control
-from . import detect_offensive_words
+from . import messages_control

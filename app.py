@@ -1,14 +1,20 @@
 from aiogram import executor
-import middlewares, handlers
 from loader import dp
+import middlewares, filters, handlers
+from utils.notify_admins import on_startup_notify
+from utils.set_bot_commands import set_default_commands
+from main.database import database
 
 
 async def on_startup(dispatcher):
-    print("Bot ishga tushdi!")
+    await database.connect()
+    await set_default_commands(dispatcher)
+
+    await on_startup_notify(dispatcher)
 
 
 async def on_shutdown(dispatcher):
-    print("Bot to'xtadi!")
+    await database.disconnect()
 
 
 if __name__ == '__main__':
