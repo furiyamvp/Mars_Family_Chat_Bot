@@ -7,7 +7,7 @@ from sqlalchemy import select
 from main.constants import EmployeeRole
 
 
-async def get_all_moderators_chat_id() -> list[int]:
+async def get_all_employees_chat_id() -> list[int]:
     try:
         query = select(EmployeeTable)
         row = await database.fetch_all(query=query)

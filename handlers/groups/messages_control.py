@@ -1,10 +1,19 @@
 from aiogram import types
 from loader import dp
 from utils.db_commands.forbidden_words import get_all_forbidden_words
+from utils.db_commands.employee import get_all_employees_chat_id
 
 
-@dp.message_handler(content_types=types.ContentType.TEXT, chat_type=types.ChatType.GROUP)
+@dp.message_handler(content_types=types.ContentType.TEXT)
 async def filter_bad_words(message: types.Message):
+    if message.chat.type == types.ChatType.PRIVATE:
+        return
+
+    employee_ids = await get_all_employees_chat_id()
+
+    if message.from_user.id in employee_ids:
+        return
+
     user_text = message.text.lower()
     forbidden_words = await get_all_forbidden_words()
 
