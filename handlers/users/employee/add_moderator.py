@@ -2,25 +2,22 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
 
-from keyboards.default.admin import admin_main_menu
-from keyboards.default.back import back_button
-
+from keyboards.default.admin import admin_main_menu_def
+from keyboards.default.back import back_button_def
 from states.admin import AddModeratorState
-
 from loader import dp
 from utils.db_commands.employee import add_moderator
 
-
 @dp.message_handler(CommandStart(), role="admin")
 async def start_for_moderator_handler(message: types.Message):
-    text = "Salom admin 👋"
-    await message.answer(text=text, reply_markup=admin_main_menu)
+    text = "👋 Salom admin"
+    await message.answer(text=text, reply_markup=await admin_main_menu_def())
 
 
-@dp.message_handler(text="Moderator qo'shish 👤", role="admin")
+@dp.message_handler(text="Moderator Qo'shish 👤➕", role="admin")
 async def add_moderator_button_handler(message: types.Message):
     text = "📝 Moderatorni ismini kiriting"
-    await message.answer(text=text, reply_markup=back_button)
+    await message.answer(text=text, reply_markup=await back_button_def())
     await AddModeratorState.first_name.set()
 
 
@@ -31,10 +28,9 @@ async def add_moderator_first_name_handler(message: types.Message, state: FSMCon
         return
 
     await state.update_data(first_name=message.text)
-    text = "📝 Moderatorning familiyasini kiriting"
+    text = "👤 Moderatorning familiyasini kiriting"
     await message.answer(text=text)
     await AddModeratorState.last_name.set()
-
 
 @dp.message_handler(state=AddModeratorState.last_name, content_types=types.ContentType.ANY)
 async def add_moderator_last_name_handler(message: types.Message, state: FSMContext):
@@ -95,6 +91,6 @@ async def add_moderator_phone_number_handler(message: types.Message, state: FSMC
         await message.answer(text=text)
     else:
         error_text = "❌ Moderator qo'shishda xatolik yuz berdi."
-        await message.answer(text=error_text, reply_markup=admin_main_menu)
+        await message.answer(text=error_text, reply_markup=await admin_main_menu_def())
 
     await state.finish()

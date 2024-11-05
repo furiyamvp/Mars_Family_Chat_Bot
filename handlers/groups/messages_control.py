@@ -1,6 +1,6 @@
 from aiogram import types
 from loader import dp
-from utils.db_commands.forbidden_words import get_all_forbidden_words
+from utils.db_commands.forbidden_word import get_all_forbidden_words
 from utils.db_commands.employee import get_all_employees_chat_id
 
 
@@ -23,7 +23,7 @@ async def filter_bad_words(message: types.Message):
         user_identity = f"@{message.from_user.username}" if message.from_user.username else \
             f"{message.from_user.full_name}"
 
-        await message.answer(f"{user_identity} havola yuborish mumkin emas ❗️")
+        await message.answer(f"{user_identity} havola yuborish mumkin emams ❗️")
         return
 
     if user_text.startswith("@") and " " not in user_text:

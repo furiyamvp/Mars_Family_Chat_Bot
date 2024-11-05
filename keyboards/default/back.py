@@ -1,10 +1,13 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
-back_button = ReplyKeyboardMarkup(
-    keyboard=[
-        [
-            KeyboardButton("Orqaga ⬅️")
-        ],
-    ], resize_keyboard=True
-)
+
+async def back_button_def():
+    markup = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton("Orqaga 🔙")
+            ],
+        ], resize_keyboard=True
+    )
+    return markup

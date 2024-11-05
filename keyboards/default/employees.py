@@ -1,7 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from main.models import ForbiddenWordModel
 
-
-async def moderator_main_menu_def():
+async def forbidden_word_menu_def():
     markup = ReplyKeyboardMarkup(
         keyboard=[
             [

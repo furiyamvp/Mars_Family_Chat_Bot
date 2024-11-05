@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8922be2f6251
+Revision ID: 08a5ff19ea44
 Revises: 
-Create Date: 2024-10-09 19:09:35.676763
+Create Date: 2024-10-21 18:39:48.750565
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '8922be2f6251'
+revision: str = '08a5ff19ea44'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,17 +29,18 @@ def upgrade() -> None:
     sa.Column('role', sa.Enum('admin', 'moderator', name='employeerole'), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('chat_id')
     )
     op.create_table('forbidden_word',
     sa.Column('id', sa.BigInteger(), nullable=False),
     sa.Column('word', sa.String(), nullable=False),
-    sa.Column('answer', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('employee_id', sa.BigInteger(), nullable=False),
     sa.ForeignKeyConstraint(['employee_id'], ['employee.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('word')
     )
     # ### end Alembic commands ###
 
