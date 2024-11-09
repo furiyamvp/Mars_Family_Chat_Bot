@@ -21,7 +21,7 @@ async def add_moderator_button_handler(message: types.Message):
     await AddModeratorState.first_name.set()
 
 
-@dp.message_handler(state=AddModeratorState.first_name, content_types=types.ContentType.ANY)
+@dp.message_handler(state=AddModeratorState.first_name, content_types=types.ContentType.ANY, role="admin")
 async def add_moderator_first_name_handler(message: types.Message, state: FSMContext):
     if message.content_type != types.ContentType.TEXT:
         await message.answer("❌ Iltimos, faqat matn kiriting.")
@@ -32,7 +32,7 @@ async def add_moderator_first_name_handler(message: types.Message, state: FSMCon
     await message.answer(text=text)
     await AddModeratorState.last_name.set()
 
-@dp.message_handler(state=AddModeratorState.last_name, content_types=types.ContentType.ANY)
+@dp.message_handler(state=AddModeratorState.last_name, content_types=types.ContentType.ANY, role="admin")
 async def add_moderator_last_name_handler(message: types.Message, state: FSMContext):
     if message.content_type != types.ContentType.TEXT:
         await message.answer("❌ Iltimos, faqat matn kiriting.")
@@ -44,7 +44,7 @@ async def add_moderator_last_name_handler(message: types.Message, state: FSMCont
     await AddModeratorState.chat_id.set()
 
 
-@dp.message_handler(state=AddModeratorState.chat_id, content_types=types.ContentType.ANY)
+@dp.message_handler(state=AddModeratorState.chat_id, content_types=types.ContentType.ANY, role="admin")
 async def add_moderator_chat_id_handler(message: types.Message, state: FSMContext):
     chat_id = None
 
@@ -68,7 +68,7 @@ async def add_moderator_chat_id_handler(message: types.Message, state: FSMContex
     await AddModeratorState.phone_number.set()
 
 
-@dp.message_handler(state=AddModeratorState.phone_number, content_types=types.ContentType.TEXT)
+@dp.message_handler(state=AddModeratorState.phone_number, content_types=types.ContentType.TEXT, role="admin")
 async def add_moderator_phone_number_handler(message: types.Message, state: FSMContext):
     phone_number = message.text
 
