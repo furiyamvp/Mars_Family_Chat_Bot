@@ -15,6 +15,7 @@ EmployeeModel = Table(
     Column("updated_at", DateTime, onupdate=func.now()),
 )
 
+
 CategoryModel = Table(
     "category",
     metadata,

@@ -4,13 +4,16 @@ from main.models import ForbiddenWordModel
 from main.database import database
 
 
-async def get_all_forbidden_words() -> list[str]:
+async def get_all_forbidden_words() -> list[dict]:
     try:
         query = select(ForbiddenWordModel)
         rows = await database.fetch_all(query=query)
-        return [row['word'] for row in rows]
+
+        forbidden_words = [dict(row) for row in rows]
+
+        return forbidden_words
     except Exception as e:
-        print(f"Error fetching user chat IDs: {e}")
+        print(f"Error fetching forbidden words: {e}")
         return []
 
 
@@ -24,6 +27,7 @@ async def delete_forbidden_word(word: str):
         else:
             return False
     except Exception as e:
+
         print(f"Error: There was a problem deleting the forbidden word: {e}")
         return None
 

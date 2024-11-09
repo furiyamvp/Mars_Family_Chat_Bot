@@ -17,13 +17,20 @@ async def filter_bad_words(message: types.Message):
     user_text = message.text.lower()
     forbidden_words = await get_all_forbidden_words()
 
+    user_identity = f"@{message.from_user.username}" if message.from_user.username else f"{message.from_user.full_name}"
+
+    for forbidden_word in forbidden_words:
+        word = forbidden_word['word']
+        answer = forbidden_word['answer']
+
+        if word in user_text:
+            await message.delete()
+            await message.answer(f"{user_identity} {answer}")
+            return
+
     if any(link in user_text for link in ["http://", "https://", "www.", "t.me/"]) and not user_text.startswith("@"):
         await message.delete()
-
-        user_identity = f"@{message.from_user.username}" if message.from_user.username else \
-            f"{message.from_user.full_name}"
-
-        await message.answer(f"{user_identity} havola yuborish mumkin emams ❗️")
+        await message.answer(f"{user_identity} havola yuborish mumkin emas ❗️")
         return
 
     if user_text.startswith("@") and " " not in user_text:
@@ -31,19 +38,5 @@ async def filter_bad_words(message: types.Message):
             pass
         elif user_text.startswith("@"):
             await message.delete()
-
-            user_identity = f"@{message.from_user.username}" if message.from_user.username else \
-                f"{message.from_user.full_name}"
-
-            await message.answer(f"{user_identity} kanallarni tashlash mumkin emas ❗️")
-            return
-
-    for word in forbidden_words:
-        if word in user_text:
-            await message.delete()
-
-            user_identity = f"@{message.from_user.username}" if message.from_user.username else \
-                f"{message.from_user.full_name}"
-
-            await message.answer(f"{user_identity} bu so'zni ishlatish mumkin emas ❗️")
+            await message.answer(f"{user_identity} havola yuborish mumkin emas ❗️")
             return
